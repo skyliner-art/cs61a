@@ -210,6 +210,16 @@ def make_let_frame(bindings, env):
     names = vals = nil
     # BEGIN PROBLEM 14
     "*** YOUR CODE HERE ***"
+    def let_eval(binding_list):
+        if binding_list == nil:
+            return nil,nil
+        validate_form(binding_list.first,2,2)
+        names,vals =let_eval(binding_list.rest)
+        names = Pair(binding_list.first.first,names)
+        vals = Pair(scheme_eval(binding_list.first.rest.first,env),vals)
+        validate_formals(names)
+        return names,vals
+    names,vals = let_eval(bindings)
     # END PROBLEM 14
     return env.make_child_frame(names, vals)
 

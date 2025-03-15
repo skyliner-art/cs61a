@@ -105,7 +105,7 @@ def do_if_form(expressions, env):
     if is_scheme_true(scheme_eval(expressions.first, env)):
         return scheme_eval(expressions.rest.first, env)
     elif len(expressions) == 3:
-        return scheme_eval(expressions.rest.rest.first, env)
+        return scheme_eval(expressions.rest.rest.first, env,True)
 
 def do_and_form(expressions, env):
     """Evaluate a (short-circuited) and form.
@@ -154,7 +154,10 @@ def do_or_form(expressions, env):
     "*** YOUR CODE HERE ***"
     if expressions == nil:
         return False
-    result = scheme_eval(expressions.first,env)
+    if expressions.rest == nil:
+        result = scheme_eval(expressions.first,env,True)
+    else:
+        result = scheme_eval(expressions.first,env)
     if is_scheme_false(result):
         if len(expressions) == 1:
             return result

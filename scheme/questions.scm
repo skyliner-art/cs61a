@@ -13,7 +13,10 @@
     (f s 0)
 ) 
   ; END PROBLEM 15
-
+(define (sum n total)
+  (if (zero? n)
+      total  ; 直接返回 total
+      (sum (- n 1) (+ n total))))  ; 递归调用是整个表达式的最终返回值
 ;; Problem 16
 
 ;; Merge two lists S1 and S2 according to ORDERED? and return
@@ -28,7 +31,6 @@
                       (else (cons (car s1) (merge ordered? (cdr s1) s2))))))
   )
   ; END PROBLEM 16
-
 ;; Optional Problem 2
 
 ;; Returns a function that checks if an expression is the special form FORM

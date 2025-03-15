@@ -10,7 +10,7 @@ import scheme_forms
 # Eval/Apply #
 ##############
 
-def scheme_eval(expr, env, _=None): # Optional third argument is ignored
+def scheme_eval(expr, env, tail=None): # Optional third argument is ignored
     """Evaluate Scheme expression EXPR in Frame ENV.
 
     >>> expr = read_line('(+ 2 2)')
@@ -93,10 +93,12 @@ def eval_all(expressions, env):
     2
     """
     # BEGIN PROBLEM 6
+    # print("eval_all")
+    # print(expressions)
     if expressions==nil:
         return None
     elif expressions.rest == nil:
-        return scheme_eval(expressions.first,env)
+        return Unevaluated(expressions.first,env)
     scheme_eval(expressions.first,env)
     return eval_all(expressions.rest,env)
     # END PROBLEM 6
@@ -135,6 +137,15 @@ def optimize_tail_calls(unoptimized_scheme_eval):
         result = Unevaluated(expr, env)
         # BEGIN OPTIONAL PROBLEM 1
         "*** YOUR CODE HERE ***"
+        result = unoptimized_scheme_eval(result.expr,result.env)
+        while isinstance(result,Unevaluated):
+            # print("Processing Unevaluated:", result.expr)
+            result = unoptimized_scheme_eval(result.expr,result.env)
+            # if isinstance(result,Unevaluated):
+            #     print(result.expr)
+            # else:
+            #     print(result)
+        return result
         # END OPTIONAL PROBLEM 1
     return optimized_eval
 
@@ -155,4 +166,4 @@ def optimize_tail_calls(unoptimized_scheme_eval):
 # Uncomment the following line to apply tail call optimization #
 ################################################################
 
-# scheme_eval = optimize_tail_calls(scheme_eval)
+scheme_eval = optimize_tail_calls(scheme_eval)

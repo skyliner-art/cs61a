@@ -98,7 +98,7 @@ def eval_all(expressions, env):
     if expressions==nil:
         return None
     elif expressions.rest == nil:
-        return Unevaluated(expressions.first,env)
+        return scheme_eval(expressions.first,env,True)
     scheme_eval(expressions.first,env)
     return eval_all(expressions.rest,env)
     # END PROBLEM 6

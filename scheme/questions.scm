@@ -56,19 +56,19 @@
                (params (cadr expr))
                (body   (cddr expr)))
            ; BEGIN OPTIONAL PROBLEM 2
-            (cons form (cons params body))
+            (cons form (cons params (map let-to-lambda body)))
            ; END OPTIONAL PROBLEM 2
            ))
         ((let? expr)
          (let ((values (cadr expr))
                (body   (cddr expr)))
            ; BEGIN OPTIONAL PROBLEM 2
-           (cons (cons 'lambda (cons (car (zip values)) body)) (apply append(cdr (zip values))))
+           (cons (cons 'lambda (cons (map let-to-lambda (car (zip values))) (map let-to-lambda body))) (map let-to-lambda(apply append (cdr (zip values)))))
            ; END OPTIONAL PROBLEM 2
            ))
         (else
          ; BEGIN OPTIONAL PROBLEM 2
-         expr
+         (map let-to-lambda expr)
          ; END OPTIONAL PROBLEM 2
          )))
 
